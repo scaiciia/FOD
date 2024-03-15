@@ -47,7 +47,6 @@ Begin
         sigue := True;
     If (sigue) Then
         Begin
-            id := 0;
             Rewrite(a);
             WriteLn('Ingrese apellido del empleado');
             ReadLn(e.apellido);
@@ -148,6 +147,7 @@ Begin
     ReadLn(nom);
     Assign(a, nom);
     salir := False;
+    id := 0;
     Repeat
         WriteLn('      1. Crear archivo.');
         WriteLn('      2. Buscar empleado.');
