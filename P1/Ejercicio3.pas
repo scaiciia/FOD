@@ -15,11 +15,10 @@ Type
 
     archivo =   file Of empleado;
 
-Procedure ingresarDatos(Var e: empleado);
+Procedure ingresarDatos(Var e: empleado; id: Integer);
 
 Begin
-    WriteLn('Ingrese numero de empleado');
-    ReadLn(e.ID);
+    e.ID := id;
     WriteLn('Ingrese nombre del empleado');
     ReadLn(e.nombre);
     WriteLn('Ingrese la edad');
@@ -28,7 +27,7 @@ Begin
     ReadLn(e.DNI);
 End;
 
-Procedure crearArchivo(Var a: archivo; nom: String);
+Procedure crearArchivo(Var a: archivo; Var id: Integer; nom: String);
 
 Var 
     rta:   char;
@@ -48,12 +47,14 @@ Begin
         sigue := True;
     If (sigue) Then
         Begin
+            id := 0;
             Rewrite(a);
             WriteLn('Ingrese apellido del empleado');
             ReadLn(e.apellido);
             While (e.apellido <> 'fin') Do
                 Begin
-                    ingresarDatos(e);
+                    id := id + 1;
+                    ingresarDatos(e, id);
                     Write(a, e);
                     WriteLn('Ingrese apellido del empleado. Ingrese "fin" para Salir');
                     ReadLn(e.apellido);
@@ -140,6 +141,7 @@ Var
     rta:   opciones;
     salir:   Boolean;
     nom:   String;
+    id:   Integer;
 
 Begin
     WriteLn('Ingrese nombre del archivo');
@@ -154,7 +156,7 @@ Begin
         WriteLn('      0. Salir');
         ReadLn(rta);
         Case rta Of 
-            1:   crearArchivo(a, nom);
+            1:   crearArchivo(a, id, nom);
             2:   buscarEmpleado(a, nom);
             3:   listarEmpleados(a, nom);
             4:   proximasJubilaciones(a, nom)
