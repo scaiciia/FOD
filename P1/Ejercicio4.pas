@@ -161,17 +161,87 @@ Begin
         End;
 End;
 
+Procedure modificarEdad(Var a: archivo; nom: String);
+
+Var 
+    ID:   Integer;
+    e:   empleado;
+    fin:   Boolean;
+Begin
+    If (FileExists(nom)) Then
+        Begin
+            WriteLn('Ingrese el numero de empleado');
+            ReadLn(ID);
+            Reset(a);
+            fin := false;
+            While ((Not(Eof(a))) And (Not(fin))) Do
+                Begin
+                    read(a, e);
+                    If (e.ID = ID) Then
+                        Begin
+                            WriteLn('Ingrese la nueva edad');
+                            ReadLn(e.edad);
+                            Seek(a, filePos(a)-1);
+                            write(a, e);
+                        End;
+                End;
+            close(a);
+        End;
+End;
+
+Procedure exportar(Var a: archivo; nom: String; Var aTodos: Text);
+
+Var 
+    e:   empleado;
+Begin
+    If (FileExists(nom)) Then
+        Begin
+            Reset(a);
+            Rewrite(aTodos);
+            While (Not(eof(a))) Do
+                Begin
+                    read(a, e);
+                    WriteLn(aTodos, ' ', e.ID, ' ', e.apellido, ' ', e.nombre, ' ', e.edad, ' ', e.DNI);
+                End;
+            close(a);
+            close(aTodos);
+        End;
+End;
+
+Procedure exportarDNIFaltantes(Var a: archivo; nom: String; Var aFaltaDNI: Text);
+
+Var 
+    e:   empleado;
+Begin
+    If (FileExists(nom)) Then
+        Begin
+            Reset(a);
+            Rewrite(aFaltaDNI);
+            While (Not(Eof(a))) Do
+                Begin
+                    read(a, e);
+                    If (e.DNI = '00') Then
+                        WriteLn(aFaltaDNI, ' ', e.ID, ' ', e.apellido, ' ', e.nombre, ' ', e.edad, ' ', e.DNI);
+                End;
+            Close(aFaltaDNI);
+            Close(a);
+        End;
+End;
+
 Var 
     a:   archivo;
     rta:   opciones;
     salir:   Boolean;
     nom:   String;
     id:   Integer;
+    aTodos, aFaltaDNI:   Text;
 
 Begin
     WriteLn('Ingrese nombre del archivo');
     ReadLn(nom);
     Assign(a, nom);
+    Assign(aTodos, 'todos_empleados.txt');
+    Assign(aFaltaDNI, 'faltaDNIEmpleado.txt');
     salir := False;
     id := 0;
     Repeat
@@ -194,8 +264,8 @@ Begin
             4:   proximasJubilaciones(a, nom);
             5:   agregarEmpleados(a, id, nom);
             6:   modificarEdad(a, nom);
-            7:   exportar(a, nom);
-            8:   exportarDNIFaltantes(a, nom)
+            7:   exportar(a, nom, aTodos);
+            8:   exportarDNIFaltantes(a, nom, aFaltaDNI)
                  Else
                      salir := True
         End;
