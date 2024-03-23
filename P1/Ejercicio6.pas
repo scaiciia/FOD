@@ -43,7 +43,7 @@ End;
 
 Procedure imprimir(c: celular);
 Begin
-    WriteLn('Codigo: ', c.cod, ' - Precio: $', c.precio:9:2, ' - Marca: ', c.marca);
+    WriteLn('Codigo: ', c.cod, ' - Precio: $', c.precio:7:2, ' - Marca: ', c.marca);
     WriteLn('Stock disponible: ', c.stockDisp, ' - Stock minimo: ', c.stockMin, ' - Descripcion: ', c.desc);
     WriteLn('Nombre: ', c.nom);
     WriteLn();
@@ -104,7 +104,7 @@ Begin
             While (Not(Eof(a))) Do
                 Begin
                     read(a, c);
-                    WriteLn(celulares, c.cod, ' ', c.precio:9:2, ' ', c.marca);
+                    WriteLn(celulares, c.cod, ' ', c.precio:7:2, ' ', c.marca);
                     WriteLn(celulares, c.stockDisp, ' ', c.stockMin, ' ', c.desc);
                     WriteLn(celulares, c.nom);
                 End;
@@ -192,7 +192,7 @@ Begin
                     read(a, c);
                     If (c.stockDisp = 0) Then
                         Begin
-                            WriteLn(sinStock, c.cod, ' ', c.precio:9:2, ' ', c.marca);
+                            WriteLn(sinStock, c.cod, ' ', c.precio:7:2, ' ', c.marca);
                             WriteLn(sinStock, c.stockDisp, ' ', c.stockMin, ' ', c.desc);
                             WriteLn(sinStock, c.nom);
                         End;
