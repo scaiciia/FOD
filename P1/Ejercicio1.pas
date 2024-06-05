@@ -25,9 +25,9 @@ Var
     a:   archivo;
     nom:   String[20];
 
-Begin
+begin
     WriteLn('Ingrese el nombre del archivo');
     ReadLn(nom);
     Assign(a, nom);
     cargar(a);
-End.
+end.
